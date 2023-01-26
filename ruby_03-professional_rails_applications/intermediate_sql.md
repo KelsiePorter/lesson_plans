@@ -55,11 +55,11 @@ VALUES ('lobster mac n cheese', 1200, 'side'),
 
 ##### Write queries for the following:
 
-1. What's the total revenue for all items? - 3800
-1. What's the average revenue for all items? - 950.00
-1. What's the minimum revenue for all items? - 500
-1. What's the maximum revenue for all items? - 1200
-1. What the count for items with a name? - 4
+1. What's the total revenue for all items? - ANSWER: 3800
+1. What's the average revenue for all items? - ANSWER: 950.00
+1. What's the minimum revenue for all items? - ANSWER: 500
+1. What's the maximum revenue for all items? - ANSWER: 1200
+1. What the count for items with a name? - ANSWER: 4
 
 Let's create an item that has all NULL values:
 `INSERT into items (name, revenue, course) VALUES (NULL, NULL, NULL);`
@@ -167,11 +167,13 @@ This is useful, but we probably don't need all of the information from both tabl
 * Can you get it to display only the name for the item and the name for the season?
 * Having two columns with the same name is confusing. Can you customize each heading using `AS`?
 
-`SELECT items.name AS item_name,
+```sql
+ANSWER: SELECT items.name AS item_name,
 seasons.name AS season_name
 FROM items
 INNER JOIN seasons
-ON items.season_id = seasons.id;`
+ON items.season_id = seasons.id;
+```
 
 It should look like this:
 
@@ -215,6 +217,14 @@ arugula salad | dinner
 arugula salad | lunch
 arugula salad | vegetarian
 (4 rows)
+```
+
+```sql
+ANSWER: SELECT items.name AS item_name, categories.name AS category_name
+FROM items 
+INNER JOIN item_categories on items.id = item_categories.item_id
+INNER JOIN categories ON categories.id = item_categories.category_id
+WHERE items.name = 'arugula salad'; 
 ```
 
 #### OUTER JOINS
@@ -282,7 +292,39 @@ id  |         name        | revenue | season_id | id |  name
 What do you think a `RIGHT OUTER JOIN` will do?
 
 * Write a query to test your guess.
+
+```sql
+ANSWER: SELECT * 
+FROM items
+RIGHT OUTER JOIN seasons
+ON items.season_id = seasons.id; 
+```
+
 * Insert data into the right table that will not get returned on an `INNER JOIN`.
+
+```sql
+ANSWER: INSERT INTO seasons (name)
+VALUES (NULL),
+(NULL),
+(NULL);
+```
+
+```sql
+TABLE ANSWER: 
+ id |         name         | revenue | season_id | id |  name  
+----+----------------------+---------+-----------+----+--------
+  6 | hot dog              |    1000 |         1 |  1 | summer
+  2 | veggie lasagna       |    1000 |         1 |  1 | summer
+  3 | striped bass         |     500 |         1 |  1 | summer
+  4 | burger               |    2000 |         1 |  1 | summer
+  7 | arugula salad        |    1100 |         2 |  2 | autumn
+  1 | lobster mac n cheese |    1200 |         3 |  3 | winter
+  5 | grilled cheese       |     800 |         4 |  4 | spring
+    |                      |         |           |  5 | 
+    |                      |         |           |  6 | 
+    |                      |         |           |  7 | 
+(10 rows)
+```
 
 ### Subqueries
 
